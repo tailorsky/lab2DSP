@@ -7,15 +7,15 @@ plt.rcParams['figure.figsize'] = [12, 8]
 plt.rcParams['font.size'] = 10
 
 def start(Fs, Ts, T, N):
+    
     print(f"Общие параметры:")
     print(f"Частота дискретизации: {Fs} Гц, Период дискретизации: {Ts} с")
     print(f"Длительность: {T} с, Количество отсчетов: {N}")
 
+
 def prove_linearity(t_numeric, T, N, Ts):
-    """Доказательство свойства линейности: ax(n) + by(n) ≓ aX(k) + bY(k)"""
-    
     print("\n" + "=" * 60)
-    print("СВОЙСТВО ЛИНЕЙНОСТИ: ax(n) + by(n) ≓ aX(k) + bY(k)")
+    print("Свойство линейности")
     print("=" * 60)
 
     f1, f2 = 5, 20
@@ -32,7 +32,6 @@ def prove_linearity(t_numeric, T, N, Ts):
     print("Символьное доказательство:")
     print("Левая часть:", dft_left)
     print("Правая часть:", dft_right)
-    print("✓ Символьное доказательство завершено")
 
     x_numeric = np.sin(2 * np.pi * f1 * t_numeric)
     y_numeric = np.sin(2 * np.pi * f2 * t_numeric)
@@ -65,17 +64,16 @@ def prove_linearity(t_numeric, T, N, Ts):
     
     plt.tight_layout()
     plt.show()
+    plt.savefig("linearity.png", dpi=300)
 
     diff = np.max(np.abs(Z - Z_linear))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")
-    print(f"✓ Свойство линейности подтверждено: {diff < 1e-10}")
+    print(f"Свойство линейности подтверждено: {diff < 1e-10}")
 
 
 def prove_convolution():
-    """Доказательство свойства свертки: (x∗y)(n) ≓ X(k)Y(k)"""
-    
     print("\n" + "=" * 60)
-    print("СВОЙСТВО СВЕРТКИ: (x∗y)(n) ≓ X(k)Y(k)")
+    print("Свойство свёртки")
     print("=" * 60)
 
     x = np.array([1, 2, 1, 0, 0])
@@ -91,9 +89,9 @@ def prove_convolution():
     conv_right_sym = sp.Sum(x_n * W, (n, 0, N_sym-1)) * sp.Sum(y_n * W, (n, 0, N_sym-1))
     
     print("Символьное доказательство:")
-    print("Левая часть (упрощенно): ДПФ[∑ x(m)y(n-m)]")
+    print("Левая часть: ДПФ[∑ x(m)y(n-m)]")
     print("Правая часть: X(k)Y(k)")
-    print("✓ Для конечных последовательностей свойство выполняется")
+    print("Для конечных последовательностей свойство выполняется")
 
     conv_time = np.convolve(x, y, mode='full')[:len(x)]
     
@@ -118,16 +116,16 @@ def prove_convolution():
     
     plt.tight_layout()
     plt.show()
+    plt.savefig("convolution.png", dpi=300)
 
     diff = np.max(np.abs(Z_conv - Z_product))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")
-    print(f"✓ Свойство свертки подтверждено: {diff < 1e-10}")
+    print(f"Свойство свертки подтверждено: {diff < 1e-10}")
 
 def prove_shift(t_numeric, N, Ts):
-    """Доказательство свойства сдвига: x(n−n₀) ≓ X(k)exp(−2πin₀k/N)"""
     
     print("\n" + "=" * 60)
-    print("СВОЙСТВО СДВИГА: x(n−n₀) ≓ X(k)exp(−2πin₀k/N)")
+    print("Свойство сдвига")
     print("=" * 60)
     
     n0 = 10
@@ -144,7 +142,7 @@ def prove_shift(t_numeric, N, Ts):
     print("Символьное доказательство:")
     print("Левая часть: ДПФ[x(n-n₀)]")
     print("Правая часть: X(k)exp(-2πin₀k/N)")
-    print("✓ Свойство следует из линейности экспоненциальной функции")
+    print("Свойство следует из линейности экспоненциальной функции")
 
     x = np.sin(2 * np.pi * 5 * t_numeric)
     x_shifted = np.roll(x, n0)
@@ -174,17 +172,16 @@ def prove_shift(t_numeric, N, Ts):
     
     plt.tight_layout()
     plt.show()
-
+    plt.savefig("shift.png", dpi=300)
+    
     diff = np.max(np.abs(X_shifted_time - X_shifted_freq))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")
     print(f"Свойство сдвига подтверждено: {diff < 1e-10}")
 
 
 def prove_multiplication(t_numeric, N, Ts):
-    """Доказательство свойства умножения: x(n)y(n) ≓ (1/N)X(k)∗Y(k)"""
-    
     print("\n" + "=" * 60)
-    print("СВОЙСТВО УМНОЖЕНИЯ: x(n)y(n) ≓ (1/N)X(k)∗Y(k)")
+    print("Свойство умножения")
     print("=" * 60)
 
     n, k, m, N_sym = sp.symbols('n k m N', integer=True, positive=True)
@@ -240,16 +237,15 @@ def prove_multiplication(t_numeric, N, Ts):
     
     plt.tight_layout()
     plt.show()
+    plt.savefig("multiplication.png", dpi=300)
     
     diff = np.max(np.abs(Z_mult - Z_conv))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")
-    print(f"✓ Свойство умножения подтверждено: {diff < 0.1}")
+    print(f"Свойство умножения подтверждено: {diff < 0.1}")
 
 def prove_parseval(t_numeric, N):
-    """Доказательство теоремы Парсеваля: ∑|x(n)|² = (1/N)∑|X(k)|²"""
-    
     print("\n" + "=" * 60)
-    print("ТЕОРЕМА ПАРСЕВАЛЯ: ∑|x(n)|² = (1/N)∑|X(k)|²")
+    print("Теорема Парсеваля")
     print("=" * 60)
 
     n, k, N_sym = sp.symbols('n k N', integer=True, positive=True)
@@ -264,7 +260,7 @@ def prove_parseval(t_numeric, N):
     print("Символьное доказательство:")
     print("Левая часть: ∑|x(n)|²")
     print("Правая часть: (1/N)∑|X(k)|²")
-    print("✓ Теорема сохраняет энергию сигнала")
+    print("Теорема сохраняет энергию сигнала")
     
     x = np.sin(2 * np.pi * 8 * t_numeric) + 0.5 * np.cos(2 * np.pi * 15 * t_numeric)
     X = fft(x)
@@ -275,4 +271,4 @@ def prove_parseval(t_numeric, N):
     print(f"Энергия во временной области: {energy_time:.6f}")
     print(f"Энергия в частотной области: {energy_freq:.6f}")
     print(f"Разность: {np.abs(energy_time - energy_freq):.2e}")
-    print(f"✓ Теорема Парсеваля подтверждена: {np.abs(energy_time - energy_freq) < 1e-10}")
+    print(f"Теорема Парсеваля подтверждена: {np.abs(energy_time - energy_freq) < 1e-10}")

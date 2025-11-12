@@ -106,6 +106,7 @@ def real_signals(filenames):
         plt.xlabel("Время, с")
         plt.ylabel("Амплитуда")
         plt.grid(True)
+        plt.savefig(f"{filename[:-4]}_signal.png", dpi=300)
 
         plt.figure(figsize=(10, 4))
         plt.plot(freqs, amplitude)
@@ -116,6 +117,7 @@ def real_signals(filenames):
         plt.grid(True)
         plt.axvline(f1, color='r', linestyle='--', label=f"f₁ ≈ {f1:.1f} Гц")
         plt.legend()
+        plt.savefig(f"{filename[:-4]}_magnitude.png", dpi=300)
 
         plt.figure(figsize=(10, 4))
         plt.plot(freqs, np.unwrap(phase))
@@ -124,6 +126,7 @@ def real_signals(filenames):
         plt.ylabel("Фаза, рад")
         plt.xlim(0, Fs / 2)
         plt.grid(True)
+        plt.savefig(f"{filename[:-4]}_phase.png", dpi=300)
 
         plt.show()
 

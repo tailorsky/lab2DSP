@@ -5,7 +5,6 @@ def start(t, w, t0, w0, k, a, b, tau, xi, I, Abs, f, g, F, G, filename='fourier_
     log = []
     
     def write(line=""):
-        print(line)
         log.append(line)
     
     def formal_FT(expr):
