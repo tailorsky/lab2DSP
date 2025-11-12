@@ -57,5 +57,5 @@ y1 = sp.Piecewise(
 y2 = 1/3*(sin(2*sp.pi*f1*t) + sin(2*sp.pi*f2*t) + sin(2*sp.pi*f3*t))
 y3 = sin(2 * sp.pi*(t+0.5)*t)
 
-fs = 1000
+fs = 200
 p3.test_signals_magnitude_and_spectrogram(y1, y2, y3, fs, t, show_graphs=False)

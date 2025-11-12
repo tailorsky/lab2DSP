@@ -20,31 +20,31 @@ def test_signal(f0, fs, T, x, N, show_graphs):
     plt.figure()
     plt.subplot(2,1,1)
     plt.stem(freq, np.abs(X))
-    plt.title("График с N=10 (Амплитуда)")
+    plt.title("График с N=10 (Амплитуда)", fontdict={'fontsize': 24})
 
     plt.subplot(2,1,2)
     plt.stem(freq, np.angle(X))
-    plt.title("График с N=10 (Фаза)")
+    plt.title("График с N=10 (Фаза)", fontdict={'fontsize': 24})
     plt.savefig('./p2_2/magnitude_phase_N10.png', dpi=300)
 
     plt.figure()
     plt.subplot(2,1,1)
     plt.stem(freq2, np.abs(X_padded))
-    plt.title("График с N=200 (Амплитуда)")
+    plt.title("График с N=200 (Амплитуда)", fontdict={'fontsize': 24})
 
     plt.subplot(2,1,2)
     plt.stem(freq2, np.angle(X_padded))
-    plt.title("График с N=200 (Фаза)")
+    plt.title("График с N=200 (Фаза)", fontdict={'fontsize': 24})
     plt.savefig('./p2_2/magnitude_phase_N200.png', dpi=300)
 
     plt.figure()
     plt.subplot(2,1,1)
     plt.stem(freq_win, np.abs(X_win))
-    plt.title("График с окном (Амплитуда)")
+    plt.title("График с окном (Амплитуда)", fontdict={'fontsize': 24})
 
     plt.subplot(2,1,2)
     plt.stem(freq_win, np.angle(X_win))
-    plt.title("График с окном (Фаза)")
+    plt.title("График с окном (Фаза)", fontdict={'fontsize': 24})
     plt.savefig('./p2_2/magnitude_phase_window.png', dpi=300)
     
     if(show_graphs == True):
@@ -65,6 +65,12 @@ def real_signals(filenames, show_graphs):
             dt = 1.0 / 5000.0
             time = np.arange(len(signal)) * dt
         
+        N = 9
+        LEVELS = 2**N
+        Delta = -0.167783
+        Vref = 3.055693
+        signal = (Vref / LEVELS) * signal - Delta
+        
         dt = np.median(np.diff(time))
         Fs = 1 / dt
         N = len(signal)
@@ -73,14 +79,12 @@ def real_signals(filenames, show_graphs):
         print(f"Количество отсчетов: {N}")
         print(f"Частота дискретизации: {Fs:.2f} Гц")
         
-        # === 3. FFT ===
-        Nfft = 1 << (int(np.ceil(np.log2(N))))  # ближайшая степень двойки
+        Nfft = 1 << (int(np.ceil(np.log2(N))))
         X = np.fft.rfft(x, n=Nfft)
         freqs = np.fft.rfftfreq(Nfft, d=dt)
         amplitude = (2.0 / N) * np.abs(X)
         phase = np.angle(X)
 
-        # === 4. Поиск основной гармоники ===
         valid_idx = np.where(freqs > 1)[0]
         main_idx = valid_idx[np.argmax(amplitude[valid_idx])]
         f1 = freqs[main_idx]
@@ -108,29 +112,29 @@ def real_signals(filenames, show_graphs):
         plt.title("Сигнал во временной области")
         plt.xlabel("Время, с")
         plt.ylabel("Амплитуда")
-        plt.xlim(-100, 2600)
         plt.grid(True)
         plt.savefig(f"./p2_2/{filename[:-4]}_signal.png", dpi=300)
 
-        plt.figure(figsize=(10, 4))
+        plt.figure(figsize=(10, 8))
+        plt.subplot(2, 1, 1)
         plt.plot(freqs, amplitude)
-        plt.title("Амплитудный спектр (односторонний)")
+        plt.title(f"Амплитудный спектр для сигнала {filename[:-4]}", fontdict={'fontsize': 24})
         plt.xlabel("Частота, Гц")
         plt.ylabel("Амплитуда")
-        plt.xlim(0, Fs / 2)
+        plt.xlim(-50, Fs / 2 + 50)
         plt.grid(True)
-        plt.axvline(f1, color='r', linestyle='--', label=f"f₁ ≈ {f1:.1f} Гц")
-        plt.legend()
-        plt.savefig(f"./p2_2/{filename[:-4]}_magnitude.png", dpi=300)
-
-        plt.figure(figsize=(10, 4))
-        plt.plot(freqs, np.unwrap(phase))
-        plt.title("Фазовый спектр")
+        #plt.axvline(f1, color='r', linestyle='--', label=f"f₁ ≈ {f1:.1f} Гц")
+        #plt.legend()
+        
+        plt.subplot(2, 1, 2)
+        plt.plot(freqs, phase)
+        plt.title(f"Фазовый спектр для сигнала {filename[:-4]}", fontdict={'fontsize': 24})
         plt.xlabel("Частота, Гц")
         plt.ylabel("Фаза, рад")
-        plt.xlim(0, Fs / 2)
+        plt.xlim(-50, Fs / 2 + 50)
         plt.grid(True)
-        plt.savefig(f"./p2_2/{filename[:-4]}_phase.png", dpi=300)
+        plt.tight_layout()
+        plt.savefig(f"./p2_2/{filename[:-4]}_magnitude_phase.png", dpi=300)
         
         if(show_graphs == True):
             plt.show()

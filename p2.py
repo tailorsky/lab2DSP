@@ -42,7 +42,7 @@ def prove_linearity(t_numeric, T, N, Ts, show_graphs):
     Z = fft(z_numeric)
     Z_linear = a * X + b * Y
     
-    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    fig, axes = plt.subplots(3, 2, figsize=(18, 12))
     
     axes[0, 0].plot(t_numeric, x_numeric, 'b', label=f'sin(2π·{f1}·t)')
     axes[0, 0].plot(t_numeric, y_numeric, 'r', label=f'sin(2π·{f2}·t)')
@@ -61,6 +61,15 @@ def prove_linearity(t_numeric, T, N, Ts, show_graphs):
     
     axes[1, 1].stem(f[pos_idx][:20], np.abs(Z_linear)[pos_idx][:20], basefmt="C1-")
     axes[1, 1].set_title('Амплитудный спектр: aFFT[x] + bFFT[y]')
+    
+    phase_Z = np.angle(Z)
+    phase_Z_linear = np.angle(Z_linear)
+    
+    axes[2, 0].stem(f[pos_idx][:20], phase_Z[pos_idx][:20], basefmt="C0-")
+    axes[2, 0].set_title('Фазовый спектр: FFT[ax+by]')
+
+    axes[2, 1].stem(f[pos_idx][:20], phase_Z_linear[pos_idx][:20], basefmt="C1-")
+    axes[2, 1].set_title('Фазовый спектр: aFFT[x]+bFFT[y]')
     
     plt.tight_layout()
     plt.savefig("./p2/linearity.png", dpi=300)
@@ -103,7 +112,7 @@ def prove_convolution(show_graphs):
     Z_conv = fft(conv_time)
     Z_product = X * Y
 
-    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    fig, axes = plt.subplots(3, 2, figsize=(18, 12))
     
     axes[0, 0].stem(x, basefmt="C0-")
     axes[0, 0].set_title('Сигнал x(n)')
@@ -129,7 +138,6 @@ def prove_convolution(show_graphs):
     print(f"Свойство свертки подтверждено: {diff < 1e-10}")
 
 def prove_shift(t_numeric, N, Ts, show_graphs):
-    
     print("\n" + "=" * 60)
     print("Свойство сдвига")
     print("=" * 60)
@@ -159,7 +167,7 @@ def prove_shift(t_numeric, N, Ts, show_graphs):
     X_shifted_freq = X * phase_shift
     X_shifted_time = fft(x_shifted)
 
-    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    fig, axes = plt.subplots(3, 2, figsize=(18, 12))
     
     axes[0, 0].plot(t_numeric, x, 'b')
     axes[0, 0].set_title('Исходный сигнал x(n)')
