@@ -13,7 +13,7 @@ def start(Fs, Ts, T, N):
     print(f"Длительность: {T} с, Количество отсчетов: {N}")
 
 
-def prove_linearity(t_numeric, T, N, Ts):
+def prove_linearity(t_numeric, T, N, Ts, show_graphs):
     print("\n" + "=" * 60)
     print("Свойство линейности")
     print("=" * 60)
@@ -63,15 +63,18 @@ def prove_linearity(t_numeric, T, N, Ts):
     axes[1, 1].set_title('Амплитудный спектр: aFFT[x] + bFFT[y]')
     
     plt.tight_layout()
-    plt.show()
-    plt.savefig("linearity.png", dpi=300)
+    plt.savefig("./p2/linearity.png", dpi=300)
+    if(show_graphs == True):
+        plt.show()
+    else:
+        plt.close()
 
     diff = np.max(np.abs(Z - Z_linear))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")
     print(f"Свойство линейности подтверждено: {diff < 1e-10}")
 
 
-def prove_convolution():
+def prove_convolution(show_graphs):
     print("\n" + "=" * 60)
     print("Свойство свёртки")
     print("=" * 60)
@@ -115,14 +118,17 @@ def prove_convolution():
     axes[1, 1].set_title('Обратное ДПФ от X(k)Y(k)')
     
     plt.tight_layout()
-    plt.show()
-    plt.savefig("convolution.png", dpi=300)
+    plt.savefig("./p2/convolution.png", dpi=300)
+    if(show_graphs == True):
+        plt.show()
+    else:
+        plt.close()
 
     diff = np.max(np.abs(Z_conv - Z_product))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")
     print(f"Свойство свертки подтверждено: {diff < 1e-10}")
 
-def prove_shift(t_numeric, N, Ts):
+def prove_shift(t_numeric, N, Ts, show_graphs):
     
     print("\n" + "=" * 60)
     print("Свойство сдвига")
@@ -171,15 +177,18 @@ def prove_shift(t_numeric, N, Ts):
     axes[1, 1].set_title('Амплитудный спектр: X(k)exp(-2πin₀k/N)')
     
     plt.tight_layout()
-    plt.show()
-    plt.savefig("shift.png", dpi=300)
+    plt.savefig("./p2/shift.png", dpi=300)
+    if(show_graphs == True):
+        plt.show()
+    else:
+        plt.close()
     
     diff = np.max(np.abs(X_shifted_time - X_shifted_freq))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")
     print(f"Свойство сдвига подтверждено: {diff < 1e-10}")
 
 
-def prove_multiplication(t_numeric, N, Ts):
+def prove_multiplication(t_numeric, N, Ts, show_graphs):
     print("\n" + "=" * 60)
     print("Свойство умножения")
     print("=" * 60)
@@ -236,8 +245,11 @@ def prove_multiplication(t_numeric, N, Ts):
     axes[1, 1].set_title('Амплитудный спектр: (1/N)X(k)∗Y(k)')
     
     plt.tight_layout()
-    plt.show()
-    plt.savefig("multiplication.png", dpi=300)
+    plt.savefig("./p2/multiplication.png", dpi=300)
+    if(show_graphs == True):
+        plt.show()
+    else:
+        plt.close()
     
     diff = np.max(np.abs(Z_mult - Z_conv))
     print(f"Численная проверка: максимальная разность = {diff:.2e}")

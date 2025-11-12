@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def test_signal(f0, fs, T, x, N):
+def test_signal(f0, fs, T, x, N, show_graphs):
     X = np.fft.fft(x)
     freq = np.fft.fftfreq(N, 1/fs)
 
@@ -25,7 +25,7 @@ def test_signal(f0, fs, T, x, N):
     plt.subplot(2,1,2)
     plt.stem(freq, np.angle(X))
     plt.title("График с N=10 (Фаза)")
-    plt.savefig('magnitude_phase_N10.png', dpi=300)
+    plt.savefig('./p2_2/magnitude_phase_N10.png', dpi=300)
 
     plt.figure()
     plt.subplot(2,1,1)
@@ -35,7 +35,7 @@ def test_signal(f0, fs, T, x, N):
     plt.subplot(2,1,2)
     plt.stem(freq2, np.angle(X_padded))
     plt.title("График с N=200 (Фаза)")
-    plt.savefig('magnitude_phase_N200.png', dpi=300)
+    plt.savefig('./p2_2/magnitude_phase_N200.png', dpi=300)
 
     plt.figure()
     plt.subplot(2,1,1)
@@ -45,11 +45,14 @@ def test_signal(f0, fs, T, x, N):
     plt.subplot(2,1,2)
     plt.stem(freq_win, np.angle(X_win))
     plt.title("График с окном (Фаза)")
-    plt.savefig('magnitude_phase_window.png', dpi=300)
+    plt.savefig('./p2_2/magnitude_phase_window.png', dpi=300)
+    
+    if(show_graphs == True):
+        plt.show()
+    else:
+        plt.close()
 
-    plt.show()
-
-def real_signals(filenames):
+def real_signals(filenames, show_graphs):
     for filename in filenames:
         df = pd.read_csv(filename)
         
@@ -105,8 +108,9 @@ def real_signals(filenames):
         plt.title("Сигнал во временной области")
         plt.xlabel("Время, с")
         plt.ylabel("Амплитуда")
+        plt.xlim(-100, 2600)
         plt.grid(True)
-        plt.savefig(f"{filename[:-4]}_signal.png", dpi=300)
+        plt.savefig(f"./p2_2/{filename[:-4]}_signal.png", dpi=300)
 
         plt.figure(figsize=(10, 4))
         plt.plot(freqs, amplitude)
@@ -117,7 +121,7 @@ def real_signals(filenames):
         plt.grid(True)
         plt.axvline(f1, color='r', linestyle='--', label=f"f₁ ≈ {f1:.1f} Гц")
         plt.legend()
-        plt.savefig(f"{filename[:-4]}_magnitude.png", dpi=300)
+        plt.savefig(f"./p2_2/{filename[:-4]}_magnitude.png", dpi=300)
 
         plt.figure(figsize=(10, 4))
         plt.plot(freqs, np.unwrap(phase))
@@ -126,7 +130,10 @@ def real_signals(filenames):
         plt.ylabel("Фаза, рад")
         plt.xlim(0, Fs / 2)
         plt.grid(True)
-        plt.savefig(f"{filename[:-4]}_phase.png", dpi=300)
-
-        plt.show()
+        plt.savefig(f"./p2_2/{filename[:-4]}_phase.png", dpi=300)
+        
+        if(show_graphs == True):
+            plt.show()
+        else:
+            plt.close()
 

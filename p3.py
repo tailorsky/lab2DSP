@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.signal import stft, windows
 
-def test_signals_magnitude_and_spectrogram(y1, y2, y3, fs, t):
+def test_signals_magnitude_and_spectrogram(y1, y2, y3, fs, t, show_graphs):
     t_digit = np.arange(0, 3, 1/fs)
 
     y1 = sp.lambdify(t, y1, 'numpy')
@@ -27,20 +27,23 @@ def test_signals_magnitude_and_spectrogram(y1, y2, y3, fs, t):
     plt.figure()
     plt.stem(freqs, amp1)
     plt.title('Амплитудный спектр y_1(t)')
-    plt.savefig("y1magnitude.png")
+    plt.savefig("./p3/y1magnitude.png")
 
     plt.figure()
     plt.stem(freqs, amp2)
     plt.title('Амплитудный спектр y_2(t)')
-    plt.savefig("y2magnitude.png")
+    plt.savefig("./p3/y2magnitude.png")
 
     plt.figure()
     plt.stem(freqs, amp3)
     plt.title('Амплитудный спектр y_3(t)')
-    plt.savefig("y3magnitude.png")
+    plt.savefig("./p3/y3magnitude.png")
 
     plt.tight_layout()
-    plt.show()
+    if show_graphs ==True:
+        plt.show()
+    else:
+        plt.close()
     
     window_sizes = [int(0.01 * N), int(0.1 * N), int(0.3 * N)]
     window_sizes = [max(8, w) for w in window_sizes]  
@@ -59,8 +62,11 @@ def test_signals_magnitude_and_spectrogram(y1, y2, y3, fs, t):
             plt.xlabel('Время [с]')
             plt.colorbar(label='Амплитуда')
         plt.tight_layout()
-        plt.savefig(f"{title_prefix}spectrogram_{int(wlen/N*100)}.png", dpi=300)
-        plt.show()
+        plt.savefig(f"./p3/{title_prefix}spectrogram_{int(wlen/N*100)}.png", dpi=300)
+        if show_graphs ==True:
+            plt.show()
+        else:
+            plt.close()
 
     plot_stft(y1_d, "y_1(t) — кусочная синусоида")
     plot_stft(y2_d, "y_2(t) — сумма трёх синусоид")

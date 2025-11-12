@@ -27,10 +27,10 @@ t_numeric = np.arange(0, T, Ts)
 N = len(t_numeric)
 
 p2.start(Fs, Ts, T, N)
-p2.prove_linearity(t_numeric, T, N, Ts)
-p2.prove_convolution()
-p2.prove_shift(t_numeric, N, Ts)
-p2.prove_multiplication(t_numeric, N, Ts)
+p2.prove_linearity(t_numeric, T, N, Ts, show_graphs=False)
+p2.prove_convolution(show_graphs=False)
+p2.prove_shift(t_numeric, N, Ts, show_graphs=False)
+p2.prove_multiplication(t_numeric, N, Ts, show_graphs=False)
 p2.prove_parseval(t_numeric, N)
 
 #ПУНКТ 2_2
@@ -40,9 +40,9 @@ T = 1
 N = int (fs*T)
 t = np.arange(N) / fs
 x = np.exp(1j * 2 * np.pi * f0 * t)
-p2_2.test_signal(f0, fs, T, x, N)
+p2_2.test_signal(f0, fs, T, x, N, show_graphs=False)
 filenames = ["100hz.csv", "2.5khz.csv", "5khz.csv", "10khz.csv"]
-p2_2.real_signals(filenames)
+p2_2.real_signals(filenames, show_graphs=False)
 
 #ПУНКТ 3
 f1, f2, f3 = 1,2,3 
@@ -58,4 +58,4 @@ y2 = 1/3*(sin(2*sp.pi*f1*t) + sin(2*sp.pi*f2*t) + sin(2*sp.pi*f3*t))
 y3 = sin(2 * sp.pi*(t+0.5)*t)
 
 fs = 1000
-p3.test_signals_magnitude_and_spectrogram(y1, y2, y3, fs, t)
+p3.test_signals_magnitude_and_spectrogram(y1, y2, y3, fs, t, show_graphs=False)
