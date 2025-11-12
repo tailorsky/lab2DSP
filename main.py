@@ -41,7 +41,7 @@ N = int (fs*T)
 t = np.arange(N) / fs
 x = np.exp(1j * 2 * np.pi * f0 * t)
 p2_2.test_signal(f0, fs, T, x, N)
-filenames = ["100hz.csv", "5khz.csv", "10khz.csv"]
+filenames = ["100hz.csv", "2.5khz.csv", "5khz.csv", "10khz.csv"]
 p2_2.real_signals(filenames)
 
 #ПУНКТ 3
